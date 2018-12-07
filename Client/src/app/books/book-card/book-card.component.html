@@ -1,0 +1,62 @@
+<!-- !CARD -->
+
+<div class="card h-100">
+  <div class="row justify-content-center">
+    <img class="card-img" src="{{book.imageUrl}}" alt="Card image" />
+  </div>
+
+  <div class="card-body">
+    <h5 class="card-title">{{ book.title }}</h5>
+    <p class="card-subtitle mb-2 text-muted">by {{ book.authors | authors }}</p>
+    <p class="card-text">{{ book.description | truncate: 250:true }}</p>
+  </div>
+
+  <div class="card-footer">
+    <div class="row justify-content-around">
+      <a
+        data-toggle="modal"
+        data-target="#Modal"
+        class="card-link"
+        (click)="selectBook(book)"
+        ><i class="far fa-clone"></i> Details</a
+      >
+      <a (click)="addToList(book)" class="card-link"
+        ><i class="fas fa-plus"></i> Add to My List</a
+      >
+    </div>
+  </div>
+</div>
+
+<!-- ! /CARD -->
+
+<!-- ? Modal -->
+<div
+  class="modal fade"
+  id="Modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="ModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel"></h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="ModalBody"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

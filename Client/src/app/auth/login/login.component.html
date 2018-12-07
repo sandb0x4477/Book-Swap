@@ -1,0 +1,58 @@
+<div class="row justify-content-center">
+  <form [formGroup]="loginForm" (ngSubmit)="login()" style="min-width: 350px;">
+    <h2 class="text-center text-primary">Sign In</h2>
+    <hr />
+
+    <!-- ? USERNAME ========================================== -->
+    <div class="form-group">
+      <input
+        type="text"
+        [ngClass]="{
+          'is-invalid':
+            loginForm.get('username').errors &&
+            loginForm.get('username').touched
+        }"
+        class="form-control"
+        id="username"
+        placeholder="Username"
+        formControlName="username"
+      />
+      <div class="invalid-feedback">Please enter a username</div>
+    </div>
+
+    <!-- ? PASSWORD ========================================== -->
+    <div class="form-group">
+      <input
+        type="password"
+        [ngClass]="{
+          'is-invalid':
+            loginForm.get('password').errors &&
+            loginForm.get('password').touched
+        }"
+        class="form-control"
+        id="password"
+        placeholder="Password"
+        formControlName="password"
+      />
+      <div class="invalid-feedback">Please enter password</div>
+    </div>
+
+    <div class="form-group text-center">
+      <button
+        class="btn btn-success mr-3"
+        type="submit"
+        [disabled]="!loginForm.valid"
+      >
+        Sign In
+      </button>
+
+      <button class="btn btn-default" type="button" [routerLink]="['/']">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
+
+<p>Form value: {{ loginForm.value | json }}</p>
+<p>Form valid: {{ loginForm.valid }}</p>
+<p>Form dirty: {{ loginForm.dirty }}</p>

@@ -1,0 +1,30 @@
+<h3 class="mt-3">Search for Books</h3>
+
+<form (ngSubmit)="onSubmit(form)" #form="ngForm">
+  <div class="form-group mt-3">
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        name="query"
+        class="form-control"
+        placeholder="Author, Title, ISBN..."
+        aria-label="Author, Title, ISBN..."
+        aria-describedby="button-addon2"
+        [(ngModel)]="query"
+      />
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="submit" id="button">
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="mt-4">
+  <div class="cards">
+    <div *ngFor="let book of books; let i = index">
+      <app-book-card [book]="book"></app-book-card>
+    </div>
+  </div>
+</div>

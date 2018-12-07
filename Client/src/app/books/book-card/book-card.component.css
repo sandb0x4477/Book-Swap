@@ -1,0 +1,17 @@
+.card {
+  max-width: 280px;
+  min-width: 280px;
+}
+
+.card-img {
+  /* height: auto; */
+  margin-top: 6px;
+  max-width: 128px;
+}
+.card-link {
+  cursor: pointer;
+  color: #015757 !important;
+}
+.card-link:hover {
+  color: rgb(211, 128, 4) !important;
+}
