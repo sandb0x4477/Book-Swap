@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { UserEntity } from './user.entity';
-import { UserDTO } from './user.dto';
+import { UserForLoginDTO, UserForRegisterDTO, UserForReturnDTO } from './user.dto';
 
 @Injectable()
 export class UserService {
@@ -12,8 +12,16 @@ export class UserService {
     private userRepository: Repository<UserEntity>,
   ) {}
 
+  // ? SHOW ALL
+  async showAll() {
+    const users = await this.userRepository.find();
+
+    return users.map(user => user.toResponseObject(false));
+    // return users;
+  }
+
   // ! REGISTER
-  async register(data: UserEntity) {
+  async register(data: UserForRegisterDTO) {
     const { username } = data;
     let user = await this.userRepository.findOne({ where: { username } });
 
@@ -29,7 +37,7 @@ export class UserService {
   }
 
   // ! LOGIN
-  async login(data: UserDTO) {
+  async login(data: UserForLoginDTO) {
     const { username, password } = data;
     const user = await this.userRepository.findOne({ where: { username } });
     if (!user || !(await user.comparePassword(password))) {
