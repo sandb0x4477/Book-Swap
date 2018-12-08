@@ -20,7 +20,10 @@
         (click)="selectBook(book)"
         ><i class="far fa-clone"></i> Details</a
       >
-      <a (click)="addToList(book)" class="card-link"
+      <a (click)="removeFromList(book)" class="card-link" *ngIf="isList"
+        ><i class="fas fa-trash"></i> Remove</a
+      >
+      <a (click)="addToList(book)" class="card-link" *ngIf="!isList"
         ><i class="fas fa-plus"></i> Add to My List</a
       >
     </div>

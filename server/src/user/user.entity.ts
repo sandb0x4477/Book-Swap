@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
-import { UserRO } from './user.dto';
+import { UserForReturnDTO } from './user.dto';
+import { BookEntity } from 'src/book/book.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -30,6 +31,12 @@ export class UserEntity {
   @Column('text')
   city: string;
 
+  @OneToMany(type => BookEntity, book => book.user, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  books: BookEntity[];
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 10);
@@ -39,9 +46,9 @@ export class UserEntity {
     return await bcrypt.compare(attempt, this.password);
   }
 
-  toResponseObject(showToken: boolean = true): UserRO {
+  toResponseObject(showToken: boolean = true): UserForReturnDTO {
     const { id, created, username, token } = this;
-    const responseObject: UserRO = {
+    const responseObject: UserForReturnDTO = {
       id,
       created,
       username,

@@ -1,4 +1,8 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, EventEmitter, Output } from '@angular/core';
+
+import { BookService } from 'src/app/_services/book.service';
+import { AlertifyService } from 'src/app/_services/alertify.service';
+
 import { Book } from 'src/app/_models/book.model';
 
 @Component({
@@ -8,14 +12,35 @@ import { Book } from 'src/app/_models/book.model';
 })
 export class BookCardComponent implements OnInit {
   @Input() book: Book;
+  @Input() isList: boolean;
+
+  @Output() bookRemoved = new EventEmitter<string>();
+
   selectedBook: Book;
 
-  constructor() {}
+  constructor(private bookSrv: BookService, private alertify: AlertifyService) {}
 
   ngOnInit() {}
 
   addToList(book: Book) {
-    // console.log('book', book);
+    this.bookSrv.addBook(book).subscribe(res => {
+      this.bookRemoved.emit(book.id);
+      this.alertify.success('Added to List');
+    },
+    err => {
+      this.alertify.error(err);
+    });
+  }
+
+  removeFromList(book: Book) {
+   this.bookSrv.deleteBook(book.id).subscribe(res => {
+    this.alertify.message('Removed');
+    this.bookRemoved.emit(book.id);
+    // this.searchResultsCleaned = this.searchResultsCleaned.filter(i => i !== item);
+   },
+   err => {
+     this.alertify.error(err);
+   });
   }
 
   selectBook(book: Book) {

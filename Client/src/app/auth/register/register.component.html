@@ -46,8 +46,17 @@
         class="form-control"
         id="email"
         placeholder="Email"
-        formControlName="email"
+        formControlName="email" email
       />
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          registerForm.get('email').touched &&
+          registerForm.get('email').hasError('email')
+        "
+      >
+        Email is not valid
+      </div>
       <div
         class="invalid-feedback"
         *ngIf="
@@ -55,7 +64,7 @@
           registerForm.get('email').hasError('required')
         "
       >
-        Email is required
+        Email is reqired
       </div>
     </div>
 
@@ -228,6 +237,6 @@
   </form>
 </div>
 
-<p>Form value: {{ registerForm.value | json }}</p>
+<!-- <p>Form value: {{ registerForm.value | json }}</p>
 <p>Form valid: {{ registerForm.valid }}</p>
-<p>Form dirty: {{ registerForm.dirty }}</p>
+<p>Form dirty: {{ registerForm.dirty }}</p> -->

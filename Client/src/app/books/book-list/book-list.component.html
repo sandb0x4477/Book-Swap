@@ -1,1 +1,13 @@
+<h3 class="mt-3 text-center">My List of books</h3>
 
+<div class="mt-4">
+  <div class="cards">
+    <div *ngFor="let book of books; let i = index">
+      <app-book-card
+        [book]="book"
+        [isList]="true"
+        (bookRemoved)="bookRemovedMode($event)"
+      ></app-book-card>
+    </div>
+  </div>
+</div>

@@ -6,9 +6,10 @@ import { UserModule } from './user/user.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpErrorFilter } from './shared/htttp-error.filter';
 import { LoggingInterceptor } from './shared/logging.interceptor';
+import { BookModule } from './book/book.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), UserModule],
+  imports: [TypeOrmModule.forRoot(), UserModule, BookModule],
   controllers: [AppController],
   providers: [AppService,
     {

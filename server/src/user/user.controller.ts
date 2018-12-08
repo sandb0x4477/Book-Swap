@@ -12,7 +12,7 @@ import { ValidationPipe } from './../shared/validation.pipe';
 import { UserService } from './user.service';
 import { UserForLoginDTO, UserForRegisterDTO } from './user.dto';
 
-@Controller()
+@Controller('api/')
 export class UserController {
   constructor(private userService: UserService) {}
 

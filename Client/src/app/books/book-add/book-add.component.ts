@@ -55,4 +55,8 @@ export class BookAddComponent implements OnInit {
     });
     return tempArr;
   }
+
+  bookRemovedMode(bookId: string) {
+    this.books = this.books.filter(b => b.id !== bookId);
+  }
 }
