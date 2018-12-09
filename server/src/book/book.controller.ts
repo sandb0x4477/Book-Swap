@@ -30,8 +30,14 @@ export class BookController {
 
   @Get()
   @UseGuards(new AuthGuard())
-  showAllBooks(@User('id') user) {
-    return this.bookService.showAll(user);
+  showBooksForUser(@User('id') user) {
+    return this.bookService.showBooksForUser(user);
+  }
+
+  @Get(':id')
+  @UseGuards(new AuthGuard())
+  showBooksByUserId(@Param('id') userId: string) {
+    return this.bookService.showBooksForUser(userId);
   }
 
   @Post()
@@ -43,8 +49,9 @@ export class BookController {
   }
 
   @Delete(':id')
-  deleteCustomer(@Param('id') id: string) {
-    return this.bookService.deleteBook(id);
+  @UseGuards(new AuthGuard())
+  deleteCustomer(@User('id') user, @Param('id') id: string) {
+    return this.bookService.deleteBook(user, id);
   }
 
   // @Post('auth/login')

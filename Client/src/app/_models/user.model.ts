@@ -4,4 +4,5 @@ export class User {
   email: string;
   address: string;
   city: string;
+  booksCount: number;
 }

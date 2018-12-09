@@ -47,11 +47,19 @@ export class UserEntity {
   }
 
   toResponseObject(showToken: boolean = true): UserForReturnDTO {
-    const { id, created, username, token } = this;
+    const { id, created, username, city, token, books } = this;
+    let booksCount = 0;
+
+    books.forEach(element => {
+      booksCount ++;
+    });
+
     const responseObject: UserForReturnDTO = {
       id,
       created,
       username,
+      city,
+      booksCount,
     };
 
     if (showToken) {
@@ -70,7 +78,7 @@ export class UserEntity {
         username,
       },
       process.env.SECRET,
-      { expiresIn: '1h' },
+      { expiresIn: '12h' },
     );
   }
 }

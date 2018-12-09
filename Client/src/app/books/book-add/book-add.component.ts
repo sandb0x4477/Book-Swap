@@ -45,7 +45,7 @@ export class BookAddComponent implements OnInit {
         (el.volumeInfo.imageLinks.hasOwnProperty('thumbnail'))
         ) {
           tempArr.push({
-            id: el.id,
+            googleId: el.id,
             title: el.volumeInfo.title,
             authors: el.volumeInfo.authors,
             description: el.volumeInfo.description,
@@ -57,6 +57,7 @@ export class BookAddComponent implements OnInit {
   }
 
   bookRemovedMode(bookId: string) {
-    this.books = this.books.filter(b => b.id !== bookId);
+    this.books = this.books.filter(b => b.googleId !== bookId);
+    localStorage.setItem('books', JSON.stringify(this.books));
   }
 }

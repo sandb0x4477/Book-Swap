@@ -16,7 +16,7 @@ import { UserForLoginDTO, UserForRegisterDTO } from './user.dto';
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Get('auth/users')
+  @Get('users')
   @UseGuards(new AuthGuard())
   showAllUsers() {
     return this.userService.showAll();

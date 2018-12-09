@@ -20,8 +20,8 @@ export class BookListComponent implements OnInit {
   }
 
   getAllBooks(): void {
-    this.bookSrv.getAllBooks().subscribe(res => {
-      this.books = res;
+    this.bookSrv.getAllBooks().subscribe((res: any) => {
+      this.books = res.books;
     });
   }
 

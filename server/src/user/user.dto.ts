@@ -30,5 +30,7 @@ export class UserForReturnDTO {
   id: string;
   username: string;
   created: Date;
+  city: string;
   token?: string;
+  booksCount?: number;
 }

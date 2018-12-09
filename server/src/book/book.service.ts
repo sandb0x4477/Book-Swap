@@ -21,33 +21,39 @@ export class BookService {
     private userRepository: Repository<UserEntity>,
   ) {}
 
-    private toResponseObject(book: BookEntity) {
-      return {
-        ...book,
-        user: book.user && book.user.id,
-      };
-    }
+  private toResponseObject(book: BookEntity) {
+    return {
+      ...book,
+      user: book.user && book.user.id,
+    };
+  }
 
   // ? SHOW ALL
-  async showAll(userId: string) {
+  async showBooksForUser(userId: string) {
     const user = await this.userRepository.findOne({ where: { id: userId } });
-    const books = await this.bookRepository.find({
-      where: {user},
+    const [books, bookCount] = await this.bookRepository.findAndCount({
+      where: { user },
     });
+    // const books = await this.bookRepository.find({
+    //   where: { user },
+    // });
+    const username = user.username;
 
-    return books.map(book => this.toResponseObject(book));
-    // return books;
+    const userid = user.id;
+
+    // return books.map(book => this.toResponseObject(book));
+    return { userid, username, books, bookCount };
   }
 
   //  ! CREATE
   async createBook(userId: string, data: BookForCreation) {
     const user = await this.userRepository.findOne({ where: { id: userId } });
 
-    const bookFromDb = await this.bookRepository.findOne({
-      where: { id: data.id },
+    const bookFromRepo = await this.bookRepository.findOne({
+      where: { googleId: data.googleId, userId},
     });
 
-    if (bookFromDb) {
+    if (bookFromRepo) {
       throw new HttpException(
         'Book already in the List',
         HttpStatus.BAD_REQUEST,
@@ -62,8 +68,9 @@ export class BookService {
   }
 
   // ! DELETE
-  async deleteBook(id: string) {
-    const book = await this.bookRepository.findOne({ where: { id } });
+  async deleteBook(userId: string, id: string) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const book = await this.bookRepository.findOne({ where: { id, user } });
 
     if (!book) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);

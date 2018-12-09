@@ -3,7 +3,7 @@ import { IsString, IsNotEmpty, IsArray } from 'class-validator';
 export class BookForCreation {
   @IsNotEmpty()
   @IsString()
-  id: string;
+  googleId: string;
 
   @IsNotEmpty()
   @IsString()

@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
-import { Book } from '../_models/book.model';
+import { User } from '../_models/user.model';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BookService {
-  baseUrl = environment.apiUrl + 'books/';
+export class UserService {
+  baseUrl = environment.apiUrl + 'users/';
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
@@ -23,15 +23,7 @@ export class BookService {
     };
   }
 
-  getAllBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(this.baseUrl, this.authHeader());
-  }
-
-  addBook(book: Book): Observable<Book> {
-    return this.http.post<any>(this.baseUrl, book, this.authHeader());
-  }
-
-  deleteBook(id: string): Observable<any> {
-    return this.http.delete(this.baseUrl + id, this.authHeader());
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl, this.authHeader());
   }
 }

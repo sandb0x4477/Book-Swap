@@ -24,7 +24,7 @@ export class BookCardComponent implements OnInit {
 
   addToList(book: Book) {
     this.bookSrv.addBook(book).subscribe(res => {
-      this.bookRemoved.emit(book.id);
+      this.bookRemoved.emit(book.googleId);
       this.alertify.success('Added to List');
     },
     err => {

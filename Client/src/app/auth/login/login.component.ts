@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log(this.loginForm.value);
     this.auth.login(this.loginForm.value).subscribe(
       res => {
         this.alertify.success('Login Sucessful');

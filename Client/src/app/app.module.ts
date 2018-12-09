@@ -22,6 +22,8 @@ import { HomeComponent } from './home/home.component';
 import { AuthorsPipe } from './_pipes/authors.pipe';
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
+import { UserService } from './_services/user.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -39,6 +41,7 @@ export function tokenGetter() {
     HomeComponent,
     RegisterComponent,
     LoginComponent,
+    MemberListComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +60,7 @@ export function tokenGetter() {
   providers: [
     GoggleSearchService,
     BookService,
+    UserService,
     AuthService,
     AlertifyService,
     ErrorInterceptorProvider,

@@ -2,20 +2,21 @@ import {
   Column,
   Entity,
   CreateDateColumn,
-  PrimaryColumn,
   ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserEntity } from 'src/user/user.entity';
 
 @Entity('books')
 export class BookEntity {
-  @PrimaryColumn({
-    type: 'text',
-  })
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column('text')
   title: string;
+
+  @Column('text')
+  googleId: string;
 
   @Column('simple-array')
   authors: string[];
@@ -28,9 +29,6 @@ export class BookEntity {
 
   @CreateDateColumn()
   created: Date;
-
-  // @ManyToOne(type => UserEntity, user => user.books)
-  // user: UserEntity;
 
   @ManyToOne(type => UserEntity)
   user: UserEntity;
