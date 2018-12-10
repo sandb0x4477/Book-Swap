@@ -13,8 +13,10 @@ import { Book } from 'src/app/_models/book.model';
 export class BookCardComponent implements OnInit {
   @Input() book: Book;
   @Input() isList: boolean;
+  @Input() footerMode: number;
 
   @Output() bookRemoved = new EventEmitter<string>();
+  @Output() requestBookTrade = new EventEmitter<string>();
 
   selectedBook: Book;
 
@@ -48,5 +50,10 @@ export class BookCardComponent implements OnInit {
     const modalBody = document.getElementById('ModalBody');
     modalTitle.innerHTML = book.title + ' by ' + book.authors[0];
     modalBody.innerHTML = book.description;
+  }
+
+  requestTrade(book) {
+    console.log('book', book);
+    this.requestBookTrade.emit(book.id);
   }
 }

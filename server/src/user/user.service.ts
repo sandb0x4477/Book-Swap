@@ -1,9 +1,13 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Not } from 'typeorm';
 
 import { UserEntity } from './user.entity';
-import { UserForLoginDTO, UserForRegisterDTO, UserForReturnDTO } from './user.dto';
+import {
+  UserForLoginDTO,
+  UserForRegisterDTO,
+  UserForReturnDTO,
+} from './user.dto';
 import { BookEntity } from 'src/book/book.entity';
 
 @Injectable()
@@ -16,8 +20,11 @@ export class UserService {
   ) {}
 
   // ? SHOW ALL
-  async showAll() {
-    const users = await this.userRepository.find({ relations: ['books']});
+  async showAll(userId: string) {
+    const users = await this.userRepository.find({
+      where: {id: Not(userId)},
+      relations: ['books'],
+    });
 
     return users.map(user => user.toResponseObject(false));
   }
@@ -25,10 +32,16 @@ export class UserService {
   // ! REGISTER
   async register(data: UserForRegisterDTO) {
     const { username } = data;
-    let user = await this.userRepository.findOne({ where: { username }, relations: ['books'] });
+    let user = await this.userRepository.findOne({
+      where: { username },
+      relations: ['books'],
+    });
 
     if (user) {
-      throw new HttpException('User with this name already exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'User with this name already exists',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     user = await this.userRepository.create(data);
@@ -41,7 +54,10 @@ export class UserService {
   // ! LOGIN
   async login(data: UserForLoginDTO) {
     const { username, password } = data;
-    const user = await this.userRepository.findOne({ where: { username }, relations: ['books'] });
+    const user = await this.userRepository.findOne({
+      where: { username },
+      relations: ['books'],
+    });
     if (!user || !(await user.comparePassword(password))) {
       throw new HttpException(
         'Invalid username/password',
@@ -50,7 +66,5 @@ export class UserService {
     }
 
     return user.toResponseObject();
-
   }
-
 }

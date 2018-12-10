@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { BookService } from 'src/app/_services/book.service';
 
 import { Book } from 'src/app/_models/book.model';
+import { User } from 'src/app/_models/user.model';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-book-list',
@@ -11,16 +13,19 @@ import { Book } from 'src/app/_models/book.model';
 })
 export class BookListComponent implements OnInit {
   books: Book[];
-  isList: true;
+  footerMode: number;
+  userId: string;
 
-  constructor(private bookSrv: BookService) {}
+  constructor(private bookSrv: BookService, private auth: AuthService) {}
 
   ngOnInit() {
-    this.getAllBooks();
+    this.userId = JSON.parse(localStorage.getItem('userId'));
+    // this.userId = this.auth.decodeTokenId(localStorage.getItem('token')).id;
+    this.getAllBooks(this.userId);
   }
 
-  getAllBooks(): void {
-    this.bookSrv.getAllBooks().subscribe((res: any) => {
+  getAllBooks(id: string): void {
+    this.bookSrv.getBooksForUser(id).subscribe((res: any) => {
       this.books = res.books;
     });
   }

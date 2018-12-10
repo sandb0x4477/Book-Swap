@@ -5,4 +5,5 @@ export class Book {
   authors: string[];
   description: string;
   imageUrl: string;
+  user: string;
 }

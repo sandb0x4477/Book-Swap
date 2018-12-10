@@ -20,11 +20,14 @@
         (click)="selectBook(book)"
         ><i class="far fa-clone"></i> Details</a
       >
-      <a (click)="removeFromList(book)" class="card-link" *ngIf="isList"
+      <a (click)="removeFromList(book)" class="card-link" *ngIf="footerMode == 1"
         ><i class="fas fa-trash"></i> Remove</a
       >
-      <a (click)="addToList(book)" class="card-link" *ngIf="!isList"
+      <a (click)="addToList(book)" class="card-link" *ngIf="footerMode == 2"
         ><i class="fas fa-plus"></i> Add to My List</a
+      >
+      <a (click)="requestTrade(book)" class="card-link" *ngIf="footerMode == 3"
+        ><i class="fas fa-exchange-alt"></i> Request Trade</a
       >
     </div>
   </div>

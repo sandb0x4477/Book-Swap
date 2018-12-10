@@ -11,6 +11,7 @@ import { AuthGuard } from '../shared/auth.gaurd';
 import { ValidationPipe } from './../shared/validation.pipe';
 import { UserService } from './user.service';
 import { UserForLoginDTO, UserForRegisterDTO } from './user.dto';
+import { User } from './user.decorator';
 
 @Controller('api/')
 export class UserController {
@@ -18,8 +19,8 @@ export class UserController {
 
   @Get('users')
   @UseGuards(new AuthGuard())
-  showAllUsers() {
-    return this.userService.showAll();
+  showAllUsers(@User('id') user) {
+    return this.userService.showAll(user);
   }
 
   @Post('auth/register')

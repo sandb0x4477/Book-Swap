@@ -29,6 +29,7 @@
     <div *ngFor="let book of books; let i = index">
       <app-book-card
         [book]="book"
+        [footerMode]="2"
         (bookRemoved)="bookRemovedMode($event)"
       ></app-book-card>
     </div>

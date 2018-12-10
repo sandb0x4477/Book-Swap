@@ -8,6 +8,7 @@ import {
   Delete,
   Param,
   Logger,
+  Query,
 } from '@nestjs/common';
 
 import { AuthGuard } from '../shared/auth.gaurd';
@@ -28,10 +29,21 @@ export class BookController {
     options.body && this.logger.log('BODY ' + JSON.stringify(options.body));
   }
 
+  @Get('/random')
+  @UseGuards(new AuthGuard())
+  showRandomBooks() {
+    return this.bookService.showRandomBooks();
+  }
   @Get()
   @UseGuards(new AuthGuard())
   showBooksForUser(@User('id') user) {
     return this.bookService.showBooksForUser(user);
+  }
+
+  @Get('/latest')
+  @UseGuards(new AuthGuard())
+  showRecentBooks(@User('id') user, @Query('page') page: number) {
+    return this.bookService.showRecentBooks(user, page);
   }
 
   @Get(':id')

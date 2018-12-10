@@ -14,6 +14,7 @@ export class BookAddComponent implements OnInit {
 
   books: Book[];
   query = 'John Irving';
+  footerMode: number;
 
   constructor(private goggleSrv: GoggleSearchService) {}
 

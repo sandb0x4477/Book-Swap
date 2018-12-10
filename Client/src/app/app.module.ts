@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
+import { PaginationModule } from 'ngx-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -24,6 +25,8 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { UserService } from './_services/user.service';
+import { MemberBooksComponent } from './members/member-books/member-books.component';
+import { BookLatestComponent } from './books/book-latest/book-latest.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -42,6 +45,8 @@ export function tokenGetter() {
     RegisterComponent,
     LoginComponent,
     MemberListComponent,
+    MemberBooksComponent,
+    BookLatestComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +54,7 @@ export function tokenGetter() {
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    PaginationModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
