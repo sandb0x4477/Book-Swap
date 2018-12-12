@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Pagination } from 'src/app/_models/pagination';
 import { BookService } from 'src/app/_services/book.service';
-import { Book } from 'src/app/_models/book.model';
+import { BookLatest, Book } from 'src/app/_models/book.model';
 
 @Component({
   selector: 'app-book-latest',
@@ -23,7 +23,7 @@ export class BookLatestComponent implements OnInit {
   }
 
   getLatestBooks() {
-    this.bookSrv.getLatestBooks(this.pagination.currentPage).subscribe((res: any) => {
+    this.bookSrv.getLatestBooks(this.pagination.currentPage).subscribe((res: BookLatest) => {
       this.books = res.books;
       this.pagination.totalItems = res.bookCount;
       this.pagination.currentPage = Number(res.page);

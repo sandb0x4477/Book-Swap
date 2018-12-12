@@ -6,7 +6,6 @@ import { UserEntity } from './user.entity';
 import {
   UserForLoginDTO,
   UserForRegisterDTO,
-  UserForReturnDTO,
 } from './user.dto';
 import { BookEntity } from 'src/book/book.entity';
 
@@ -26,7 +25,7 @@ export class UserService {
       relations: ['books'],
     });
 
-    return users.map(user => user.toResponseObject(false));
+    return users.map(user => user.userToRO(true, false));
   }
 
   // ! REGISTER
@@ -34,7 +33,6 @@ export class UserService {
     const { username } = data;
     let user = await this.userRepository.findOne({
       where: { username },
-      relations: ['books'],
     });
 
     if (user) {
@@ -46,9 +44,8 @@ export class UserService {
 
     user = await this.userRepository.create(data);
     await this.userRepository.save(user);
-    // return user;
+
     return HttpStatus.CREATED;
-    // return user.toResponseObject();
   }
 
   // ! LOGIN
@@ -65,6 +62,6 @@ export class UserService {
       );
     }
 
-    return user.toResponseObject();
+    return user.userToRO(true, true);
   }
 }

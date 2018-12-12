@@ -27,6 +27,9 @@ export class BookEntity {
   @Column('text')
   imageUrl: string;
 
+  @Column({ nullable: true })
+  userId: string;
+
   @CreateDateColumn()
   created: Date;
 

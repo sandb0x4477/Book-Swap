@@ -34,10 +34,11 @@ export class BookController {
   showRandomBooks() {
     return this.bookService.showRandomBooks();
   }
+
   @Get()
   @UseGuards(new AuthGuard())
-  showBooksForUser(@User('id') user) {
-    return this.bookService.showBooksForUser(user);
+  showUserBooks(@User('id') user) {
+    return this.bookService.showBooksByUserId(user);
   }
 
   @Get('/latest')
@@ -49,7 +50,7 @@ export class BookController {
   @Get(':id')
   @UseGuards(new AuthGuard())
   showBooksByUserId(@Param('id') userId: string) {
-    return this.bookService.showBooksForUser(userId);
+    return this.bookService.showBooksByUserId(userId);
   }
 
   @Post()

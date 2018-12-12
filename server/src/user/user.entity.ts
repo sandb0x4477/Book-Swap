@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  BeforeInsert,
+  OneToMany,
+} from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { UserForReturnDTO } from './user.dto';
@@ -6,7 +13,6 @@ import { BookEntity } from 'src/book/book.entity';
 
 @Entity('users')
 export class UserEntity {
-
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -46,13 +52,30 @@ export class UserEntity {
     return await bcrypt.compare(attempt, this.password);
   }
 
-  toResponseObject(showToken: boolean = true): UserForReturnDTO {
+  userToROShort() {
+    const { id, username, city } = this;
+
+    const responseObject = {
+      id,
+      username,
+      city,
+    };
+
+    return responseObject;
+  }
+
+  userToRO(
+    showBookCount: boolean = true,
+    showToken: boolean = true,
+  ): UserForReturnDTO {
     const { id, created, username, city, token, books } = this;
     let booksCount = 0;
 
-    books.forEach(element => {
-      booksCount ++;
-    });
+    if (showBookCount) {
+      books.forEach(element => {
+        booksCount++;
+      });
+    }
 
     const responseObject: UserForReturnDTO = {
       id,
@@ -69,6 +92,7 @@ export class UserEntity {
     return responseObject;
   }
 
+  // ? TOKEN
   private get token(): string {
     const { id, username } = this;
 
@@ -78,7 +102,7 @@ export class UserEntity {
         username,
       },
       process.env.SECRET,
-      { expiresIn: '12h' },
+      { expiresIn: '7d' },
     );
   }
 }

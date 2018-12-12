@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from 'src/app/_services/auth.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { User } from 'src/app/_models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +13,7 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-  user: any;
+  user: User;
 
   constructor(
     private fb: FormBuilder,
@@ -68,7 +69,7 @@ export class RegisterComponent implements OnInit {
             password: this.registerForm.get('password').value,
           };
           this.auth.login(user).subscribe(() => {
-            this.router.navigate(['/bookadd']);
+            this.router.navigate(['/booklatest']);
           });
         },
       );

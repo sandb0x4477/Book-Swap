@@ -14,13 +14,13 @@ export class AuthService {
   baseUrl = environment.apiUrl + 'auth/';
   jwtHelper = new JwtHelperService();
   decodedToken: any;
-  currentUser: User;
+  currentUser: string;
 
   constructor(private http: HttpClient) { }
 
-  login(model: any) {
+  login(model: Partial<User>) {
     return this.http.post(this.baseUrl + 'login', model).pipe(
-      map((response: any) => {
+      map((response: User) => {
         // console.log('response', response);
         const user = response;
         if (user) {
@@ -35,7 +35,7 @@ export class AuthService {
     );
   }
 
-  register(user: any) {
+  register(user: Partial<User>) {
     return this.http.post(this.baseUrl + 'register', user);
   }
 

@@ -17,7 +17,7 @@ export class MemberListComponent implements OnInit {
   }
 
   getAllUsers(): void {
-    this.userService.getAllUsers().subscribe(res => {
+    this.userService.getAllUsers().subscribe((res: User[]) => {
       this.users = res;
     });
   }

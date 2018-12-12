@@ -1,0 +1,13 @@
+.grid-column {
+  display: grid;
+  grid-template-columns: (40% auto 40%, minmax(200px, 1fr));
+  grid-gap: 16px;
+  justify-items: center;
+  border: 1px solid red;
+
+}
+
+.list-column {
+  /* border: 1px solid red; */
+  padding: 8px;
+}

@@ -1,7 +1,9 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-sm navbar-dark bg-primary fixed-top">
   <div class="container">
-    <a class="navbar-brand" [routerLink]="['/']"><i class="fas fa-exchange-alt"></i>   Book-Swap</a>
+    <a class="navbar-brand" [routerLink]="['/']"
+      ><i class="fas fa-exchange-alt"></i> Book-Swap</a
+    >
     <button
       class="navbar-toggler"
       type="button"
@@ -17,18 +19,51 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item" *ngIf="loggedIn()">
-          <a class="nav-link" href="#" routerLinkActive="active" [routerLink]="['/booklatest']">Books</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLinkActive="active"
+            [routerLink]="['/booklatest']"
+            >Books</a
+          >
         </li>
         <li class="nav-item" *ngIf="loggedIn()">
-          <a class="nav-link" href="#" routerLinkActive="active" [routerLink]="['/members']">Members</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLinkActive="active"
+            [routerLink]="['/members']"
+            >Members</a
+          >
         </li>
 
         <li class="nav-item" *ngIf="loggedIn()">
-          <a class="nav-link" href="#" routerLinkActive="active" [routerLink]="['/booklist']">My List</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLinkActive="active"
+            [routerLink]="['/trades']"
+            >My Trades</a
+          >
         </li>
 
         <li class="nav-item" *ngIf="loggedIn()">
-          <a class="nav-link" href="#" routerLinkActive="active" [routerLink]="['/bookadd']">
+          <a
+            class="nav-link"
+            href="#"
+            routerLinkActive="active"
+            [routerLink]="['/booklist']"
+            >My List</a
+          >
+        </li>
+
+        <li class="nav-item" *ngIf="loggedIn()">
+          <a
+            class="nav-link"
+            href="#"
+            routerLinkActive="active"
+            [routerLink]="['/bookadd']"
+          >
             Add Book
           </a>
         </li>

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from 'src/app/_services/auth.service';
 import { AlertifyService } from '../../_services/alertify.service';
+import { User } from 'src/app/_models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ import { AlertifyService } from '../../_services/alertify.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  user: User;
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +34,8 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.auth.login(this.loginForm.value).subscribe(
+    this.user = Object.assign({}, this.loginForm.value);
+    this.auth.login(this.user).subscribe(
       res => {
         this.alertify.success('Login Sucessful');
       },

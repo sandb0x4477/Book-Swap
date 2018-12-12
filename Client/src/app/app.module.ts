@@ -27,6 +27,7 @@ import { MemberListComponent } from './members/member-list/member-list.component
 import { UserService } from './_services/user.service';
 import { MemberBooksComponent } from './members/member-books/member-books.component';
 import { BookLatestComponent } from './books/book-latest/book-latest.component';
+import { MemberTradeComponent } from './members/member-trade/member-trade.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -47,6 +48,7 @@ export function tokenGetter() {
     MemberListComponent,
     MemberBooksComponent,
     BookLatestComponent,
+    MemberTradeComponent,
   ],
   imports: [
     BrowserModule,

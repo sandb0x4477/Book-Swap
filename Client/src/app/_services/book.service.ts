@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-
-import { environment } from '../../environments/environment';
-import { Book } from '../_models/book.model';
 import { Observable } from 'rxjs';
+
 import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
+
+import { Book, BookLatest } from '../_models/book.model';
 
 @Injectable({
   providedIn: 'root',
@@ -42,14 +43,14 @@ export class BookService {
   }
 
   // ? GET LATEST BOOKS
-  getLatestBooks(page?): Observable<any> {
+  getLatestBooks(page?): Observable<BookLatest> {
     const httpheaders = this.authHeader();
 
     if (page != null) {
       httpheaders.params = httpheaders.params.append('page', page);
      }
 
-    return this.http.get(this.baseUrl + 'latest', httpheaders);
+    return this.http.get<BookLatest>(this.baseUrl + 'latest', httpheaders);
   }
 
 }

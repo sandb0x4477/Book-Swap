@@ -4,6 +4,8 @@ import { BookService } from 'src/app/_services/book.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 
 import { Book } from 'src/app/_models/book.model';
+import { TradeService } from 'src/app/_services/trade.service';
+import { Trade } from 'src/app/_models/trade.model';
 
 @Component({
   selector: 'app-book-card',
@@ -18,9 +20,7 @@ export class BookCardComponent implements OnInit {
   @Output() bookRemoved = new EventEmitter<string>();
   @Output() requestBookTrade = new EventEmitter<string>();
 
-  selectedBook: Book;
-
-  constructor(private bookSrv: BookService, private alertify: AlertifyService) {}
+  constructor(private bookSrv: BookService, private alertify: AlertifyService, private tradeSrv: TradeService) {}
 
   ngOnInit() {}
 
@@ -54,6 +54,18 @@ export class BookCardComponent implements OnInit {
 
   requestTrade(book) {
     console.log('book', book);
-    this.requestBookTrade.emit(book.id);
+    const trade = {
+      tradeStatus: 'Created',
+      targetUserId: book.userId,
+      targetBookId: book.id
+    };
+    console.log('trade', trade);
+
+    this.tradeSrv.createTrade(trade).subscribe(res => {
+      this.alertify.success('Trade created');
+      console.log(res);
+    }, err => {
+      this.alertify.error(err);
+    });
   }
 }
