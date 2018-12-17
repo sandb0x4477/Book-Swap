@@ -7,7 +7,7 @@ import {
   UserForLoginDTO,
   UserForRegisterDTO,
 } from './user.dto';
-import { BookEntity } from 'src/book/book.entity';
+import { BookEntity } from '../book/book.entity';
 
 @Injectable()
 export class UserService {

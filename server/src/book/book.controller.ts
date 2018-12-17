@@ -16,7 +16,7 @@ import { ValidationPipe } from './../shared/validation.pipe';
 import { BookService } from './book.service';
 import { BookEntity } from './book.entity';
 import { BookForCreation } from './book.dto';
-import { User } from 'src/user/user.decorator';
+import { User } from '../user/user.decorator';
 
 @Controller('api/books')
 export class BookController {

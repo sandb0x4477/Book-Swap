@@ -10,7 +10,7 @@ import { Repository, Not } from 'typeorm';
 
 import { BookEntity } from './book.entity';
 import { BookForCreation } from './book.dto';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from '../user/user.entity';
 
 @Injectable()
 export class BookService {
@@ -59,16 +59,23 @@ export class BookService {
 
   // ! SHOW ALL
   async showBooksByUserId(userId: string) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
-    const [books, bookCount] = await this.bookRepository.findAndCount({
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['books'],
+    });
+
+    if (!user) {
+      throw new HttpException(
+        'User not Found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const books = await this.bookRepository.find({
       where: { user },
     });
-    const username = user.username;
 
-    const userid = user.id;
-
-    // return books.map(book => this.toResponseObject(book));
-    return { userid, username, books, bookCount };
+    return { books, user: user.userToRO(true, false) };
   }
 
   //  ! CREATE

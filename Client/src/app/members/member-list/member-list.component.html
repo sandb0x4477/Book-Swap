@@ -9,7 +9,7 @@
       *ngFor="let user of users"
       >
       <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{{ user.username }}</h5>
+        <h5 class="mb-1">{{ user.username | titlecase }}</h5>
         <p>
           <span class="badge badge-info"
           >Books:&nbsp;&nbsp;&nbsp;{{ user.booksCount }}</span

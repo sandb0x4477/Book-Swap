@@ -1,57 +1,154 @@
-<h3>Trades I requested</h3>
-
-<div *ngFor="let trade of trades"><!-- <p>{{trade | json}}</p> --></div>
-
-<!--
-  <li class="list-group-item">
-    <div class="row justify-content-around align-items-center">
-      <div class="col">column</div>
-      <div class="col-2">column</div>
-      <div class="col">column</div>
-    </div>
-  </li>
--->
+<h3>My Trades</h3>
 
 <ul class="list-group">
-  <li class="list-group-item mb-2" *ngFor="let trade of trades">
+  <li class="list-group-item mb-2" *ngFor="let trade of tradesRequested">
     <div class="row">
-
-      <div class="list-column col-md-5">
+      <div class="list-column col-md-5 bg-light rounded">
+        <h5 class="text-left">I want</h5>
         <div class="row">
-          <div class="col-2">
-            <img src="{{trade.targetBook.imageUrl}}" alt="" style="max-height: 100px;">
+          <div class="col">
+            <img
+              src="{{trade.targetBook.imageUrl}}"
+              alt=""
+              style="max-height: 100px;"
+            />
           </div>
           <div class="col text-right">
-            <h5>{{trade.targetBook.title}}</h5>
-            <p>by {{trade.targetBook.authors | authors}}</p>
-            <p>from {{trade.targetUser.username}}</p>
+            <h5>{{ trade.targetBook.title }}</h5>
+            <p>by {{ trade.targetBook.authors | authors }}</p>
+            <p>from {{ trade.targetUser.username | titlecase}}</p>
           </div>
         </div>
       </div>
 
-      <div class="list-column col-md-2 text-center">column2</div>
-      <div class="list-column col-md-5 text-center">column3</div>
+      <!-- ! MIDLLE COLUMN -->
+      <div class="list-column col-md-2 text-center">
+        <p>{{ trade.tradeStatus }}</p>
+
+        <ng-container [ngSwitch]="trade.tradeStatus">
+          <button *ngSwitchCase="'Created'" class="btn btn-danger" (click)="onCancel(trade)">Cancel</button>
+          <button *ngSwitchCase="'Ready'" class="btn btn-primary" (click)="onCancel(trade)">Submit</button>
+        </ng-container>
+
+      </div>
+
+      <!-- ? RIGHT COLUMN -->
+      <div class="list-column col-md-5 bg-light rounded">
+        <h5 class="text-right">{{trade.targetUser.username | titlecase}} wants:</h5>
+
+        <div class="row">
+          <div class="col text-left">
+            <ng-container *ngIf="trade.tradeOwnerBook">
+              <h5>{{ trade.tradeOwnerBook?.title }}</h5>
+              <p>by {{ trade.tradeOwnerBook.authors | authors }}</p>
+              <p>from Me</p>
+            </ng-container>
+            <ng-container *ngIf="!trade.tradeOwnerBook">
+              <h5>Waiting for response</h5>
+            </ng-container>
+          </div>
+
+          <div class="col text-right">
+            <ng-container *ngIf="trade.tradeOwnerBook">
+              <img
+                src="{{trade.tradeOwnerBook.imageUrl}}"
+                alt=""
+                style="max-height: 100px;"
+              />
+            </ng-container>
+
+            <ng-container *ngIf="!trade.tradeOwnerBook">
+              <img
+                src="assets/img/nocover.jpg"
+                alt=""
+                style="max-height: 100px;"
+              />
+            </ng-container>
+          </div>
+        </div>
+      </div>
     </div>
   </li>
 </ul>
 
-<ul class="list-group">
-  <li class="list-group-item">
-    <div class="grid-column">
-      <div class="list-column">column1</div>
-      <div class="list-column">column2</div>
-      <div class="list-column">column3</div>
+
+<!-- ======================================================================= -->
+<!-- ? PENDING -->
+<!-- ======================================================================= -->
+<!-- <h3>Trades requested from me</h3> -->
+
+
+  <ul class="list-group">
+    <li class="list-group-item mb-2" *ngFor="let trade of tradesPending">
+      <div class="row">
+        <!-- ! left well -->
+        <div class="list-column col-md-5 bg-light rounded">
+          <h5 class="text-left">I want</h5>
+
+          <div class="row">
+            <div class="col text-left">
+            <ng-container *ngIf="trade.tradeOwnerBook">
+              <img
+              src="{{trade.tradeOwnerBook.imageUrl}}"
+              alt=""
+                style="max-height: 100px;"
+                />
+              </ng-container>
+
+              <ng-container *ngIf="!trade.tradeOwnerBook">
+                <img
+                src="assets/img/nocover.jpg"
+                alt=""
+                style="max-height: 100px;"
+                />
+              </ng-container>
+            </div>
+
+            <div class="col text-right">
+              <section *ngIf="trade.tradeOwnerBook">
+                <h5>{{ trade.tradeOwnerBook?.title }}</h5>
+                <p>by {{ trade.tradeOwnerBook.authors | authors }}</p>
+                <p>from Me</p>
+              </section>
+              <section *ngIf="!trade.tradeOwnerBook" class="text-center">
+                <button class="btn btn-primary" (click)="onChoose(trade)" >Choose</button>
+              </section>
+            </div>
+          </div>
+        </div>
+
+        <div class="list-column col-md-2 text-center">
+          <p>{{ trade.tradeStatus }}</p>
+          <ng-container *ngIf="trade.tradeOwnerBook">
+            <button class="btn btn-primary mb-2" (click)="onCancel(trade)">Submit</button>
+          </ng-container>
+          <br>
+          <button class="btn btn-danger" (click)="onCancel(trade)">Cancel</button>
+      </div>
+
+      <!-- ? RIGHT COLUMN -->
+      <div class="list-column col-md-5 bg-light rounded">
+        <h5 class="text-right">{{trade.tradeOwner.username | titlecase}} wants:</h5>
+
+
+        <div class="row">
+          <div class="col text-left">
+            <h5>{{ trade.targetBook.title }}</h5>
+            <p>by {{ trade.targetBook.authors | authors }}</p>
+            <p>from Me</p>
+          </div>
+
+          <div class="col text-right">
+            <img
+            src="{{trade.targetBook.imageUrl}}"
+            alt=""
+            style="max-height: 100px;"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </li>
 </ul>
 
-<div class="d-flex flex-row bd-highlight mb-3 justify-content-between align-items-center">
-    <div class="p-2 bd-highlight">Flex item 1</div>
-    <div class="p-2 bd-highlight">Flex item 2</div>
-    <div class="p-2 bd-highlight">Flex item 3</div>
-  </div>
-  <div class="d-flex flex-row-reverse bd-highlight">
-    <div class="p-2 bd-highlight">Flex item 1</div>
-    <div class="p-2 bd-highlight">Flex item 2</div>
-    <div class="p-2 bd-highlight">Flex item 3</div>
-  </div>
+

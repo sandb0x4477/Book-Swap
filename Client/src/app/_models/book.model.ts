@@ -1,3 +1,5 @@
+import { User } from './user.model';
+
 export class Book {
   id: string;
   title: string;
@@ -13,4 +15,9 @@ export class BookLatest {
   books: Book[];
   bookCount: number;
   page: string;
+}
+
+export class BooksForUser {
+  books: Book[];
+  user: User;
 }

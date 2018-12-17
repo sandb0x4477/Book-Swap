@@ -9,7 +9,7 @@ import {
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { UserForReturnDTO } from './user.dto';
-import { BookEntity } from 'src/book/book.entity';
+import { BookEntity } from '../book/book.entity';
 
 @Entity('users')
 export class UserEntity {

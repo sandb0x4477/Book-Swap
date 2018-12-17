@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
       err => {
         this.alertify.error(err);
       }, () => {
-        this.router.navigate(['/booklist']);
+        this.router.navigate(['/booklatest']);
       });
   }
 }

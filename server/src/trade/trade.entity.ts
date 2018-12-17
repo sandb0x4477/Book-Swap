@@ -6,8 +6,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserEntity } from 'src/user/user.entity';
-import { BookEntity } from 'src/book/book.entity';
+import { UserEntity } from '../user/user.entity';
+import { BookEntity } from '../book/book.entity';
 
 @Entity('trades')
 export class TradeEntity {
@@ -21,11 +21,17 @@ export class TradeEntity {
   @Column({ nullable: true })
   tradeOwnerId: string;
 
-  @ManyToOne(type => UserEntity)
+  @ManyToOne(type => UserEntity, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   tradeOwner: UserEntity;
 
   // ? Trade owner book
-  @ManyToOne(type => BookEntity)
+  @ManyToOne(type => BookEntity, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   tradeOwnerBook: BookEntity;
 
   @Column({ nullable: true })
@@ -35,14 +41,20 @@ export class TradeEntity {
   @Column({ nullable: true })
   targetUserId: string;
 
-  @ManyToOne(type => UserEntity)
+  @ManyToOne(type => UserEntity, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   targetUser: UserEntity;
 
   // ! Target User Book
   @Column({ nullable: true })
   targetBookId: string;
 
-  @ManyToOne(type => BookEntity)
+  @ManyToOne(type => BookEntity, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   targetBook: BookEntity;
 
   @CreateDateColumn()
@@ -50,4 +62,18 @@ export class TradeEntity {
 
   @UpdateDateColumn()
   updated: Date;
+
+  // tradeToRO() {
+  //   const { id, created, updated, tradeOwnerId, tradeStatus, tradeOwnerBookId }
+  //   return {
+  //     id: trade.id,
+  //     created: trade.created,
+  //     updated: trade.updated,
+  //     tradeOwnerId: trade.tradeOwnerId,
+  //     tradeStatus: trade.tradeStatus,
+  //     tradeOwnerBookId: trade.tradeOwnerBookId,
+  //     targetBook: trade.targetBook,
+  //     targetUser: trade.targetUser.userToROShort(),
+  //   };
+  // }
 }

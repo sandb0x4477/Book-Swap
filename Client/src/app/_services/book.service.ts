@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 
-import { Book, BookLatest } from '../_models/book.model';
+import { Book, BookLatest, BooksForUser } from '../_models/book.model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,8 +38,8 @@ export class BookService {
   }
 
   // ? GET BOOKS FOR USER===================================================
-  getBooksForUser(id: string): Observable<Book[]> {
-    return this.http.get<Book[]>(this.baseUrl + id, this.authHeader());
+  getBooksForUser(id: string): Observable<BooksForUser> {
+    return this.http.get<BooksForUser>(this.baseUrl + id, this.authHeader());
   }
 
   // ? GET LATEST BOOKS
