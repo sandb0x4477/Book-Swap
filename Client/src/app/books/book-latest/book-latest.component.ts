@@ -30,8 +30,8 @@ export class BookLatestComponent implements OnInit {
     });
   }
 
-  pageChanged(event) {
-    console.log('event', event);
+  pageChanged(event: any) {
+    // console.log('event', event);
     this.pagination.currentPage = event.page;
     this.getLatestBooks();
   }

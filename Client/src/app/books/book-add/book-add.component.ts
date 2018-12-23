@@ -13,7 +13,7 @@ export class BookAddComponent implements OnInit {
   @ViewChild('form') searchForm: NgForm;
 
   books: Book[];
-  query = 'John Irving';
+  query = '';
   footerMode: number;
 
   constructor(private goggleSrv: GoggleSearchService) {}

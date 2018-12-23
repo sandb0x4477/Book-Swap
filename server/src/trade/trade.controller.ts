@@ -19,7 +19,7 @@ import { TradeForCreation, TradeForUpdate } from './trade.dto';
 import { UserEntity } from '../user/user.entity';
 import { TradeEntity } from './trade.entity';
 
-@Controller('api/trades')
+@Controller('apibs/trades')
 export class TradeController {
   constructor(private tradeService: TradeService) {}
 

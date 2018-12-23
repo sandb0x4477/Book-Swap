@@ -1,12 +1,24 @@
 <!-- Jumbotron Header -->
-<header class="jumbotron my-4">
-  <h4 class="display-4">A Warm Welcome!</h4>
+<header class="jumbotron my-4" *ngIf="!loggedIn()">
+  <h4 class="display-5">Join our Book Swap Community FREE!</h4>
   <p class="lead">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam,
-    eligendi, in quo sunt possimus non incidunt odit vero aliquid similique
-    quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.
+    Swapping books save you time, money, shelf space, and the evironment.
   </p>
-  <a href="#" class="btn btn-primary btn-lg" [routerLink]="['/register']"
-    >Register for free!</a
+  <button class="btn btn-primary btn-lg mr-3" [routerLink]="['/register']"
+    >Register for free!</button
+  >
+  <button class="btn btn-secondary btn-lg" (click)="login()"
+    >...or Login as User1</button
   >
 </header>
+
+
+<h3 class="mt-3 text-center">Random Books</h3>
+
+<div class="mt-4">
+  <div class="cards">
+    <div *ngFor="let book of books; let i = index">
+      <app-book-card [book]="book" [footerMode]="4"></app-book-card>
+    </div>
+  </div>
+</div>

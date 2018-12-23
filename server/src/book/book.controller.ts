@@ -18,7 +18,7 @@ import { BookEntity } from './book.entity';
 import { BookForCreation } from './book.dto';
 import { User } from '../user/user.decorator';
 
-@Controller('api/books')
+@Controller('apibs/books')
 export class BookController {
   private logger = new Logger('BookController');
 
@@ -30,7 +30,7 @@ export class BookController {
   }
 
   @Get('/random')
-  @UseGuards(new AuthGuard())
+  // @UseGuards(new AuthGuard())
   showRandomBooks() {
     return this.bookService.showRandomBooks();
   }

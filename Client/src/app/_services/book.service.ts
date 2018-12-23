@@ -25,6 +25,10 @@ export class BookService {
     };
   }
 
+  getRandomBooks(): Observable<Book[]> {
+    return this.http.get<Book[]>(this.baseUrl + 'random');
+  }
+
   getAllBooks(): Observable<Book[]> {
     return this.http.get<Book[]>(this.baseUrl, this.authHeader());
   }

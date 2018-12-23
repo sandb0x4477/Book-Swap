@@ -12,6 +12,7 @@ import { BookService } from './_services/book.service';
 import { AuthService } from './_services/auth.service';
 import { AlertifyService } from './_services/alertify.service';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
+import { AuthGuard } from './_guards/auth.guard';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -72,6 +73,7 @@ export function tokenGetter() {
     AuthService,
     AlertifyService,
     ErrorInterceptorProvider,
+    AuthGuard
   ],
   bootstrap: [AppComponent],
 })

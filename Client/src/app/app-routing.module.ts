@@ -10,28 +10,30 @@ import { MemberListComponent } from './members/member-list/member-list.component
 import { MemberBooksComponent } from './members/member-books/member-books.component';
 import { BookLatestComponent } from './books/book-latest/book-latest.component';
 import { MemberTradeComponent } from './members/member-trade/member-trade.component';
+import { AuthGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent},
-  { path: 'register', component: RegisterComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'members', component: MemberListComponent},
-  { path: 'members/:id', component: MemberBooksComponent},
-  { path: 'booklatest', component: BookLatestComponent},
-  { path: 'trades', component: MemberTradeComponent},
-  { path: 'booklist', component: BookListComponent},
-  { path: 'bookadd', component: BookAddComponent},
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: '', component: HomeComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  {
+    path: '',
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'members', component: MemberListComponent },
+      { path: 'members/:id', component: MemberBooksComponent },
+      { path: 'booklatest', component: BookLatestComponent },
+      { path: 'trades', component: MemberTradeComponent },
+      { path: 'booklist', component: BookListComponent },
+      { path: 'bookadd', component: BookAddComponent },
+    ],
+  },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
-   imports: [
-      RouterModule.forRoot(routes)
-   ],
-   exports: [
-      RouterModule
-   ],
-   declarations: [
-   ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+  declarations: [],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -14,7 +14,7 @@ import { UserService } from './user.service';
 import { UserForLoginDTO, UserForRegisterDTO } from './user.dto';
 import { User } from './user.decorator';
 
-@Controller('api/')
+@Controller('apibs/')
 export class UserController {
   constructor(private userService: UserService) {}
 
