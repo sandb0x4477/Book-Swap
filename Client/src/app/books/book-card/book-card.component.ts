@@ -80,7 +80,7 @@ export class BookCardComponent implements OnInit {
 
       const updateQuery = Object.assign({}, {
         id: this.trade.id,
-        tradeStatus: 'Ready',
+        tradeStatus: 'Choose',
         tradeOwnerBookId: book.id
       });
 

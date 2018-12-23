@@ -64,6 +64,19 @@ export class UserEntity {
     return responseObject;
   }
 
+  userAddressToRO() {
+    const { id, username, address, city, email } = this;
+
+    const responseObject = {
+      id,
+      username,
+      address,
+      city,
+      email,
+    };
+    return responseObject;
+  }
+
   userToRO(
     showBookCount: boolean = true,
     showToken: boolean = true,

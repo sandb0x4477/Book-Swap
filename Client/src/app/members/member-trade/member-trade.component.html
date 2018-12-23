@@ -8,7 +8,7 @@
         <div class="row">
           <div class="col">
             <img
-              src="{{trade.targetBook.imageUrl}}"
+              src="{{ trade.targetBook.imageUrl }}"
               alt=""
               style="max-height: 100px;"
             />
@@ -16,7 +16,7 @@
           <div class="col text-right">
             <h5>{{ trade.targetBook.title }}</h5>
             <p>by {{ trade.targetBook.authors | authors }}</p>
-            <p>from {{ trade.targetUser.username | titlecase}}</p>
+            <p>from {{ trade.targetUser.username | titlecase }}</p>
           </div>
         </div>
       </div>
@@ -26,15 +26,55 @@
         <p>{{ trade.tradeStatus }}</p>
 
         <ng-container [ngSwitch]="trade.tradeStatus">
-          <button *ngSwitchCase="'Created'" class="btn btn-danger" (click)="onCancel(trade)">Cancel</button>
-          <button *ngSwitchCase="'Ready'" class="btn btn-primary" (click)="onCancel(trade)">Submit</button>
-        </ng-container>
+          <button
+            *ngSwitchCase="'Created'"
+            class="btn btn-danger"
+            (click)="onCancel(trade)"
+          >
+            Cancel
+          </button>
+          <button
+            *ngSwitchCase="'Choose'"
+            class="btn btn-danger"
+            (click)="onCancel(trade)"
+          >
+            Cancel
+          </button>
 
+          <ng-container *ngSwitchCase="'Pending'">
+            <button
+              class="btn btn-primary mb-1"
+              (click)="onAcceptTrade(trade)"
+            >
+              Accept
+            </button>
+            <br>
+            <button
+              class="btn btn-danger"
+              (click)="onCancel(trade)"
+            >
+              Reject
+            </button>
+          </ng-container>
+
+          <button
+            *ngSwitchCase="'Accepted'"
+            data-toggle="modal"
+            data-target="#Modal"
+            class="btn btn-primary"
+            (click)="onShowAddres(trade.targetUserId)"
+          >
+            Show Address
+          </button>
+
+        </ng-container>
       </div>
 
       <!-- ? RIGHT COLUMN -->
       <div class="list-column col-md-5 bg-light rounded">
-        <h5 class="text-right">{{trade.targetUser.username | titlecase}} wants:</h5>
+        <h5 class="text-right">
+          {{ trade.targetUser.username | titlecase }} wants:
+        </h5>
 
         <div class="row">
           <div class="col text-left">
@@ -51,7 +91,7 @@
           <div class="col text-right">
             <ng-container *ngIf="trade.tradeOwnerBook">
               <img
-                src="{{trade.tradeOwnerBook.imageUrl}}"
+                src="{{ trade.tradeOwnerBook.imageUrl }}"
                 alt=""
                 style="max-height: 100px;"
               />
@@ -71,65 +111,93 @@
   </li>
 </ul>
 
-
 <!-- ======================================================================= -->
 <!-- ? PENDING -->
 <!-- ======================================================================= -->
 <!-- <h3>Trades requested from me</h3> -->
 
+<ul class="list-group">
+  <li class="list-group-item mb-2" *ngFor="let trade of tradesPending">
+    <div class="row">
+      <!-- ! left well -->
+      <div class="list-column col-md-5 bg-light rounded">
+        <h5 class="text-left">I want</h5>
 
-  <ul class="list-group">
-    <li class="list-group-item mb-2" *ngFor="let trade of tradesPending">
-      <div class="row">
-        <!-- ! left well -->
-        <div class="list-column col-md-5 bg-light rounded">
-          <h5 class="text-left">I want</h5>
-
-          <div class="row">
-            <div class="col text-left">
+        <div class="row">
+          <div class="col text-left">
             <ng-container *ngIf="trade.tradeOwnerBook">
               <img
-              src="{{trade.tradeOwnerBook.imageUrl}}"
-              alt=""
+                src="{{ trade.tradeOwnerBook.imageUrl }}"
+                alt=""
                 style="max-height: 100px;"
-                />
-              </ng-container>
+              />
+            </ng-container>
 
-              <ng-container *ngIf="!trade.tradeOwnerBook">
-                <img
+            <ng-container *ngIf="!trade.tradeOwnerBook">
+              <img
                 src="assets/img/nocover.jpg"
                 alt=""
                 style="max-height: 100px;"
-                />
-              </ng-container>
-            </div>
+              />
+            </ng-container>
+          </div>
 
-            <div class="col text-right">
-              <section *ngIf="trade.tradeOwnerBook">
-                <h5>{{ trade.tradeOwnerBook?.title }}</h5>
-                <p>by {{ trade.tradeOwnerBook.authors | authors }}</p>
-                <p>from Me</p>
-              </section>
-              <section *ngIf="!trade.tradeOwnerBook" class="text-center">
-                <button class="btn btn-primary" (click)="onChoose(trade)" >Choose</button>
-              </section>
-            </div>
+          <div class="col text-right">
+            <section *ngIf="trade.tradeOwnerBook">
+              <h5>{{ trade.tradeOwnerBook?.title }}</h5>
+              <p>by {{ trade.tradeOwnerBook.authors | authors }}</p>
+              <p>from Me</p>
+            </section>
+            <section *ngIf="!trade.tradeOwnerBook" class="text-center">
+              <button class="btn btn-primary" (click)="onChoose(trade)">
+                Choose
+              </button>
+            </section>
           </div>
         </div>
+      </div>
 
-        <div class="list-column col-md-2 text-center">
-          <p>{{ trade.tradeStatus }}</p>
-          <ng-container *ngIf="trade.tradeOwnerBook">
-            <button class="btn btn-primary mb-2" (click)="onCancel(trade)">Submit</button>
+      <!-- ! MIDLLE COLUMN -->
+      <div class="list-column col-md-2 text-center">
+        <p>{{ trade.tradeStatus }}</p>
+
+        <ng-container [ngSwitch]="trade.tradeStatus">
+          <button
+            *ngSwitchCase="'Created'"
+            class="btn btn-danger"
+            (click)="onCancel(trade)"
+          >
+            Reject
+          </button>
+
+          <ng-container *ngSwitchCase="'Choose'">
+            <button class="btn btn-primary mb-1" (click)="onSubmitTrade(trade)">
+              Submit
+            </button>
+            <br />
+            <button class="btn btn-danger" (click)="onRemove(trade)">
+              Remove
+            </button>
           </ng-container>
-          <br>
-          <button class="btn btn-danger" (click)="onCancel(trade)">Cancel</button>
+
+          <button
+            *ngSwitchCase="'Accepted'"
+            data-toggle="modal"
+            data-target="#Modal"
+            class="btn btn-primary"
+            (click)="onShowAddres(trade.tradeOwnerId)"
+          >
+            Show Address
+          </button>
+
+        </ng-container>
       </div>
 
       <!-- ? RIGHT COLUMN -->
       <div class="list-column col-md-5 bg-light rounded">
-        <h5 class="text-right">{{trade.tradeOwner.username | titlecase}} wants:</h5>
-
+        <h5 class="text-right">
+          {{ trade.tradeOwner.username | titlecase }} wants:
+        </h5>
 
         <div class="row">
           <div class="col text-left">
@@ -140,9 +208,9 @@
 
           <div class="col text-right">
             <img
-            src="{{trade.targetBook.imageUrl}}"
-            alt=""
-            style="max-height: 100px;"
+              src="{{ trade.targetBook.imageUrl }}"
+              alt=""
+              style="max-height: 100px;"
             />
           </div>
         </div>
@@ -152,3 +220,35 @@
 </ul>
 
 
+
+<!-- ? Modal -->
+<div
+  class="modal fade"
+  id="Modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="ModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel"></h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="ModalBody"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

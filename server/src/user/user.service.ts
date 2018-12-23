@@ -3,10 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Not } from 'typeorm';
 
 import { UserEntity } from './user.entity';
-import {
-  UserForLoginDTO,
-  UserForRegisterDTO,
-} from './user.dto';
+import { UserForLoginDTO, UserForRegisterDTO } from './user.dto';
 import { BookEntity } from '../book/book.entity';
 
 @Injectable()
@@ -18,10 +15,21 @@ export class UserService {
     private bookRepository: Repository<BookEntity>,
   ) {}
 
+  // ? SHOW USER ADDRES
+  async showUserAddress(userId: string, user: string) {
+    const userFromRepo = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+
+    return userFromRepo.userAddressToRO();
+
+    // return users.map(user => user.userAddressToRO());
+  }
+
   // ? SHOW ALL
   async showAll(userId: string) {
     const users = await this.userRepository.find({
-      where: {id: Not(userId)},
+      where: { id: Not(userId) },
       relations: ['books'],
     });
 

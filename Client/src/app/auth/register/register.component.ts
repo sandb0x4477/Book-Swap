@@ -12,8 +12,6 @@ import { User } from 'src/app/_models/user.model';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  registerForm: FormGroup;
-  user: User;
 
   constructor(
     private fb: FormBuilder,
@@ -21,6 +19,14 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private alertify: AlertifyService,
   ) {}
+  registerForm: FormGroup;
+  user: User;
+
+  static passwordMatchValidator(g: FormGroup) {
+    return g.get('password').value === g.get('confirmPassword').value
+      ? null
+      : { mismatch: true };
+  }
 
   ngOnInit() {
     this.createRegisterForm();
@@ -43,14 +49,8 @@ export class RegisterComponent implements OnInit {
         ],
         confirmPassword: ['', Validators.required],
       },
-      { validator: this.passwordMatchValidator },
+      { validator: RegisterComponent.passwordMatchValidator },
     );
-  }
-
-  passwordMatchValidator(g: FormGroup) {
-    return g.get('password').value === g.get('confirmPassword').value
-      ? null
-      : { mismatch: true };
   }
 
   register() {

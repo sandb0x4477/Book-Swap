@@ -5,6 +5,7 @@ import {
   UsePipes,
   Get,
   UseGuards,
+  Param,
 } from '@nestjs/common';
 
 import { AuthGuard } from '../shared/auth.gaurd';
@@ -17,10 +18,16 @@ import { User } from './user.decorator';
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @Get('users/:id')
+  @UseGuards(new AuthGuard())
+  showUserAddress(@Param('id') userId: string, @User('id') user: string) {
+    return this.userService.showUserAddress(userId, user);
+  }
+
   @Get('users')
   @UseGuards(new AuthGuard())
-  showAllUsers(@User('id') user) {
-    return this.userService.showAll(user);
+  showAll(@User('id') userId: string) {
+    return this.userService.showAll(userId);
   }
 
   @Post('auth/register')

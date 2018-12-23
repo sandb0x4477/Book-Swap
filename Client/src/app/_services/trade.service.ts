@@ -43,4 +43,8 @@ export class TradeService {
   deleteTrade(id: string): Observable<any> {
     return this.http.delete(this.baseUrl + id, this.authHeader());
   }
+
+  showUserAddres(id: string): Observable<any> {
+    return this.http.get(environment.apiUrl + 'users/' + id, this.authHeader());
+  }
 }
