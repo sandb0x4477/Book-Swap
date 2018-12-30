@@ -1,21 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
 import { TradeService } from 'src/app/_services/trade.service';
+import { WebsocketService } from '../../_services/websocket.service';
 import { Trade } from 'src/app/_models/trade.model';
 import { AlertifyService } from 'src/app/_services/alertify.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-member-trade',
   templateUrl: './member-trade.component.html',
   styleUrls: ['./member-trade.component.css'],
 })
-export class MemberTradeComponent implements OnInit {
+export class MemberTradeComponent implements OnInit, OnDestroy {
   tradesRequested: Trade[];
   tradesPending: Trade[];
   trade: Trade;
+  sub: Subscription;
+  msg: string;
+  firstVisit = true;
 
   constructor(
     private tradeSrv: TradeService,
+    private wsService: WebsocketService,
     private alertify: AlertifyService,
     private router: Router,
   ) {}
@@ -23,6 +30,29 @@ export class MemberTradeComponent implements OnInit {
   ngOnInit() {
     this.getRequestedTrades();
     this.getPendingTrades();
+    this.sub = this.wsService.getTradeUpdate().subscribe(msg => {
+      this.msg = msg;
+      console.log('msgFromServer:---- ', this.msg);
+      if (!this.firstVisit) {
+        this.handleCreateTrade(this.msg);
+      }
+    });
+    this.firstVisit = !this.firstVisit;
+  }
+
+  handleCreateTrade(msg: any) {
+    const user = JSON.parse(localStorage.getItem('userId'));
+    if (msg.targetUserId === user) {
+      console.log(msg.targetUserId, user);
+      this.getPendingTrades();
+    } else if (msg.tradeOwnerId === user) {
+      this.getRequestedTrades();
+    }
+    this.alertify.success('Trade Update');
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   // ===========================================================================
@@ -117,12 +147,13 @@ export class MemberTradeComponent implements OnInit {
       const modalTitle = document.getElementById('ModalLabel');
       const modalBody = document.getElementById('ModalBody');
 
-      const text = `Address: ${res.address} <br> City: ${res.city} <br> Email: ${res.email}`
+      const text = `Address: ${res.address} <br> City: ${
+        res.city
+      } <br> Email: ${res.email}`;
 
       modalTitle.innerHTML = res.username;
       modalBody.innerHTML = text;
-
-    })
+    });
   }
 
   onCancel(trade: Trade) {

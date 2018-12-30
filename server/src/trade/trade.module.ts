@@ -6,10 +6,11 @@ import { TradeService } from './trade.service';
 import { TradeController } from './trade.controller';
 import { UserEntity } from '../user/user.entity';
 import { BookEntity } from '../book/book.entity';
+import { TradeGateway } from './trade.gateway';
 
 @Module({
   imports: [TypeOrmModule.forFeature([TradeEntity, UserEntity, BookEntity])],
-  providers: [TradeService],
+  providers: [TradeService, TradeGateway],
   controllers: [TradeController],
 })
 

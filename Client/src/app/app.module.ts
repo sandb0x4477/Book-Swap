@@ -29,6 +29,7 @@ import { UserService } from './_services/user.service';
 import { MemberBooksComponent } from './members/member-books/member-books.component';
 import { BookLatestComponent } from './books/book-latest/book-latest.component';
 import { MemberTradeComponent } from './members/member-trade/member-trade.component';
+import { WebsocketService } from './_services/websocket.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -61,8 +62,8 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:4001/api'],
-        blacklistedRoutes: ['localhost:4001/api/auth'],
+        whitelistedDomains: ['localhost:4001/apibs'],
+        blacklistedRoutes: ['localhost:4001/apibs/auth'],
       },
     }),
   ],
@@ -73,7 +74,8 @@ export function tokenGetter() {
     AuthService,
     AlertifyService,
     ErrorInterceptorProvider,
-    AuthGuard
+    AuthGuard,
+    WebsocketService
   ],
   bootstrap: [AppComponent],
 })

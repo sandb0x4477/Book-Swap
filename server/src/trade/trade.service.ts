@@ -6,10 +6,11 @@ import { TradeEntity } from './trade.entity';
 import { BookEntity } from '../book/book.entity';
 import { UserEntity } from '../user/user.entity';
 import { TradeForCreation, TradeForUpdate } from './trade.dto';
+import { TradeGateway } from './trade.gateway';
 
 @Injectable()
 export class TradeService {
-  constructor(
+  constructor(private tradeGatway: TradeGateway,
     @InjectRepository(TradeEntity)
     private tradeRepository: Repository<TradeEntity>,
     @InjectRepository(BookEntity)
@@ -92,6 +93,7 @@ export class TradeService {
     const trade = await this.tradeRepository.create(data);
 
     await this.tradeRepository.save(trade);
+    this.tradeGatway.emmitMsg(trade);
     return { status: HttpStatus.CREATED, message: 'Created', id: trade.id };
   }
 
@@ -116,6 +118,10 @@ export class TradeService {
       relations: ['targetBook', 'targetUser', 'tradeOwnerBook', 'tradeOwner'],
     });
 
+    const tradeToEmit = await this.tradeRepository.findOne({id});
+
+    this.tradeGatway.emmitMsg(tradeToEmit);
+
     return this.toResponseObject(tradeForReturn);
   }
 
@@ -131,6 +137,7 @@ export class TradeService {
     }
 
     await this.tradeRepository.delete({ id });
+    this.tradeGatway.emmitMsg(trade);
 
     return { status: HttpStatus.NO_CONTENT, message: 'Deleted' };
   }

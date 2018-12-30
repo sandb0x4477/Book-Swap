@@ -12,7 +12,9 @@ import { Trade } from '../_models/trade.model';
 export class TradeService {
   baseUrl = environment.apiUrl + 'trades/';
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private auth: AuthService) {}
 
   // creates header
   private authHeader() {

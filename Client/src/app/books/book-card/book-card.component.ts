@@ -89,7 +89,7 @@ export class BookCardComponent implements OnInit {
       this.tradeSrv.updateTrade(this.trade.id, updateQuery).subscribe(
         (res: Trade) => {
           console.log(res);
-          this.alertify.success('Trade updated');
+          this.alertify.success('Trade Updated');
         },
         err => {
           this.alertify.error(err);
@@ -109,7 +109,7 @@ export class BookCardComponent implements OnInit {
 
       this.tradeSrv.createTrade(trade).subscribe(
         res => {
-          this.alertify.success('Trade created');
+          this.alertify.success('Trade Created');
           console.log(res);
         },
         err => {
