@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { PaginationModule } from 'ngx-bootstrap';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -30,6 +31,10 @@ import { MemberBooksComponent } from './members/member-books/member-books.compon
 import { BookLatestComponent } from './books/book-latest/book-latest.component';
 import { MemberTradeComponent } from './members/member-trade/member-trade.component';
 import { WebsocketService } from './_services/websocket.service';
+import { AddHeaderInterceptor } from './_services/add-header.interceptor';
+import { CacheInterceptor } from './_services/cache.interceptor';
+import { LogResponseInterceptor } from './_services/log-response.interceptor';
+import { HttpCacheService } from './_services/http-cache.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -75,7 +80,11 @@ export function tokenGetter() {
     AlertifyService,
     ErrorInterceptorProvider,
     AuthGuard,
-    WebsocketService
+    WebsocketService,
+    HttpCacheService,
+    { provide: HTTP_INTERCEPTORS, useClass: AddHeaderInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LogResponseInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
 })
